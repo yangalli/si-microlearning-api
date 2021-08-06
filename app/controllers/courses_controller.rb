@@ -12,7 +12,6 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
-
     render 'show.json'
   end
 
@@ -22,7 +21,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      render :show, status: :created, location: @course
+      render 'show.json', status: :created
     else
       render json: @course.errors, status: :unprocessable_entity
     end
@@ -32,7 +31,7 @@ class CoursesController < ApplicationController
   # PATCH/PUT /courses/1.json
   def update
     if @course.update(course_params)
-      render :show, status: :ok, location: @course
+      render 'show.json'
     else
       render json: @course.errors, status: :unprocessable_entity
     end
@@ -52,6 +51,6 @@ class CoursesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def course_params
-      params.require(:course).permit(:name, :description)
+      params.require(:course).permit(:name, :description, :banner, lessons: [:id, :name, :description, :banner])
     end
 end
